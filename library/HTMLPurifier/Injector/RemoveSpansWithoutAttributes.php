@@ -74,7 +74,7 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributes extends HTMLPurifier_In
 
         if ($current instanceof HTMLPurifier_Token_End && $current->name === 'span') {
             // Mark closing span tag for deletion
-            $this->markForDeletion->attach($current);
+            $this->markForDeletion->offsetSet($current, null);
             // Delete open span tag
             $token = false;
         }
@@ -86,7 +86,7 @@ class HTMLPurifier_Injector_RemoveSpansWithoutAttributes extends HTMLPurifier_In
     public function handleEnd(&$token)
     {
         if ($this->markForDeletion->offsetExists($token)) {
-            $this->markForDeletion->detach($token);
+            $this->markForDeletion->offsetUnset($token);
             $token = false;
         }
     }
